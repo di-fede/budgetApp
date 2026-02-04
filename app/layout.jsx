@@ -1,4 +1,4 @@
-import "./globals.scss";
+import "./globals.css";
 
 import Sidebar from "../components/Sidebar/Sidebar";
 
@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div style={{ display: 'flex' }}>
+        <div className="bodyDiv">
           <Sidebar />
           <div className="main-content">
             {children}

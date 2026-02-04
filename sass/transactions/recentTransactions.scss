@@ -1,10 +1,10 @@
-.list {
+.transactions-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.item {
+.transactions-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,34 +17,40 @@
   }
 }
 
-.info {
+.transactions-info {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.category {
+.transactions-category {
   font-weight: 600;
   color: var(--text-color);
 }
 
-.desc {
+.transactions-desc {
   font-size: 0.875rem;
   color: #8b949e;
 }
 
-.right {
+.transactions-right {
   text-align: right;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.amount {
+.transactions-amount {
   font-weight: 700;
 }
 
-.date {
+.transactions-date {
   font-size: 0.75rem;
   color: #8b949e;
+}
+.transactions-card{
+      padding:1.5rem;
+      background:var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
 }

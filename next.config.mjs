@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Config options here
+  sassOptions: {
+    prependData: `@import "@/sass/abstracts/_mixins.scss";`,
+  }
 };
 
 export default nextConfig;

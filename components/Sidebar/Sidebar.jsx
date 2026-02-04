@@ -2,13 +2,15 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { LayoutDashboard, Receipt, Settings, Menu, X, Wallet } from 'lucide-react';
 import styles from './Sidebar.module.scss';
 import clsx from 'clsx';
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentYear = searchParams.get('year');
   const [isOpen, setIsOpen] = useState(false);
 
   const links = [
@@ -16,6 +18,8 @@ const Sidebar = () => {
     { href: '/transactions', label: 'Transactions', icon: Receipt },
     { href: '/settings', label: 'Settings', icon: Settings },
   ];
+
+  const years = ['2026', '2027', '2028', '2029','2030'];
 
   return (
     <>
@@ -35,7 +39,13 @@ const Sidebar = () => {
         <nav className={styles.nav}>
           {links.map((link) => {
             const Icon = link.icon;
-            const isActive = pathname === link.href;
+            // Exact match for non-year links to keep it simple, 
+            // or we could ignore query params for main nav items if needed.
+            // For now, let's keep it simple. If we are on root / with no year, Dashboard is active.
+            // If we have a year, Dashboard is still technically the page, but maybe we want to distinguish?
+            // Let's just highlight dashboard if pathname matches and no year selected? 
+            // Or just keep it standard.
+            const isActive = pathname === link.href && !currentYear;
             return (
               <Link 
                 key={link.href} 
@@ -48,6 +58,21 @@ const Sidebar = () => {
               </Link>
             );
           })}
+
+          <div className={styles.divider} />
+          <div className={styles.sectionTitle}>History</div>
+          
+          {years.map(year => (
+            <Link
+              key={year}
+              href={`/?year=${year}`}
+              className={clsx(styles.link, currentYear === year && styles.active)}
+              onClick={() => setIsOpen(false)}
+            >
+              <LayoutDashboard size={18} style={{ opacity: 0 }} /> {/* Spacer icon */}
+              <span>{year}</span>
+            </Link>
+          ))}
         </nav>
       </aside>
     </>

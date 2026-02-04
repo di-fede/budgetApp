@@ -7,24 +7,42 @@ import TransactionHistory from '../components/Dashboard/TransactionHistory'; // 
 import Modal from '../components/UI/Modal';
 import TransactionForm from '../components/Transactions/TransactionForm';
 
+import { useSearchParams } from 'next/navigation';
+import DashTop from '@/components/Dashboard/dashTop';
+
 export default function Home() {
+  const searchParams = useSearchParams();
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [summary, setSummary] = useState({ totalBalance: 0, totalIncome: 0, totalExpenses: 0 });
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Derive summary based on transactions and selected year
+  const currentYear = searchParams.get('year');
+  const summary = React.useMemo(() => {
+    let filteredTxs = transactions;
+    
+    if (currentYear) {
+      filteredTxs = transactions.filter(t => t.date.startsWith(currentYear));
+    }
+
+    const income = filteredTxs
+      .filter(t => t.type === 'income')
+      .reduce((acc, curr) => acc + Number(curr.amount), 0);
+      
+    const expenses = filteredTxs
+      .filter(t => t.type === 'expense')
+      .reduce((acc, curr) => acc + Number(curr.amount), 0);
+      
+    return {
+      totalBalance: income - expenses,
+      totalIncome: income,
+      totalExpenses: expenses,
+    };
+  }, [transactions, currentYear]);
 
   const fetchData = () => {
     const txs = getTransactions();
     setTransactions(txs);
-
-    const income = txs.filter(t => t.type === 'income').reduce((acc, curr) => acc + Number(curr.amount), 0);
-    const expenses = txs.filter(t => t.type === 'expense').reduce((acc, curr) => acc + Number(curr.amount), 0);
-    
-    setSummary({
-      totalBalance: income - expenses,
-      totalIncome: income,
-      totalExpenses: expenses,
-    });
   };
 
   useEffect(() => {
@@ -57,13 +75,18 @@ export default function Home() {
         </button>
       </header>
 
-      <SummaryCards summary={summary} />
+<DashTop>
 
-      <div style={{ marginBottom: '1.5rem' }}>
-        <IncomeExpenseChart transactions={transactions} />
+   <SummaryCards summary={summary} />
+
+      <div className='chart-container'>
+        <IncomeExpenseChart transactions={transactions} year={searchParams.get('year')} />
       </div>
+</DashTop>
 
-      <TransactionHistory transactions={transactions} onRefresh={fetchData} />
+
+
+      <TransactionHistory transactions={transactions} onRefresh={fetchData} year={searchParams.get('year')} />
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add Transaction">
         <TransactionForm onSuccess={fetchData} onClose={() => setIsModalOpen(false)} />

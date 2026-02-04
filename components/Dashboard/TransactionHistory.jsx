@@ -9,7 +9,7 @@ import TransactionForm from '../Transactions/TransactionForm';
 import styles from './TransactionHistory.module.scss';
 import clsx from 'clsx';
 
-const TransactionHistory = ({ transactions, onRefresh }) => {
+const TransactionHistory = ({ transactions, onRefresh, year }) => {
   const scrollRef = useRef(null);
   // Need to listen to category changes locally or force refresh?
   // Since categories are in localStorage, simple state updates might not sync if we don't re-fetch.
@@ -34,8 +34,14 @@ const TransactionHistory = ({ transactions, onRefresh }) => {
   const [newCatName, setNewCatName] = useState('');
 
   const months = useMemo(() => {
-    const last12Months = Array.from({ length: 12 }, (_, i) => {
-      const date = subMonths(new Date(), 11 - i);
+    let generatedMonths = [];
+    
+    // Default to current year if no year is selected
+    const targetYear = year ? Number(year) : new Date().getFullYear();
+
+    // Generate Jan-Dec for the target year
+    generatedMonths = Array.from({ length: 12 }, (_, i) => {
+      const date = new Date(targetYear, i, 1);
       return {
         id: format(date, 'yyyy-MM'),
         label: format(date, 'MMMM yyyy'),
@@ -46,15 +52,15 @@ const TransactionHistory = ({ transactions, onRefresh }) => {
 
     transactions.forEach(tx => {
       const txDate = parseISO(tx.date);
-      const monthGroup = last12Months.find(m => isWithinInterval(txDate, {
+      const monthGroup = generatedMonths.find(m => isWithinInterval(txDate, {
         start: startOfMonth(m.dateObj),
         end: endOfMonth(m.dateObj)
       }));
       if (monthGroup) monthGroup.txs.push(tx);
     });
 
-    return last12Months;
-  }, [transactions]);
+    return generatedMonths;
+  }, [transactions, year]);
 
   const scroll = (direction) => {
     if (scrollRef.current) {
@@ -110,7 +116,6 @@ const TransactionHistory = ({ transactions, onRefresh }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h3>Monthly History</h3>
         <div className={styles.controls}>
           <button onClick={() => scroll('left')}><ChevronLeft size={20} /></button>
           <button onClick={() => scroll('right')}><ChevronRight size={20} /></button>

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "watch:sass": "sass --watch sass/main.scss app/globals.css"
   },
   "dependencies": {
     "clsx": "^2.1.1",

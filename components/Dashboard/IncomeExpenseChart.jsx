@@ -3,18 +3,33 @@ import React, { useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 import { format, subMonths, startOfMonth, endOfMonth, isWithinInterval, parseISO } from 'date-fns';
 
-const IncomeExpenseChart = ({ transactions }) => {
+const IncomeExpenseChart = ({ transactions, year }) => {
   const data = useMemo(() => {
-    // Generate last 6 months
-    const months = Array.from({ length: 6 }, (_, i) => {
-      const date = subMonths(new Date(), 5 - i);
-      return {
-        name: format(date, 'MMM'),
-        dateObj: date,
-        Income: 0,
-        Expense: 0,
-      };
-    });
+    let months = [];
+
+    if (year) {
+      // Generate 12 months for the selected year
+      months = Array.from({ length: 12 }, (_, i) => {
+        const date = new Date(Number(year), i, 1);
+        return {
+          name: format(date, 'MMM'),
+          dateObj: date,
+          Income: 0,
+          Expense: 0,
+        };
+      });
+    } else {
+      // Default: Last 6 months
+      months = Array.from({ length: 6 }, (_, i) => {
+        const date = subMonths(new Date(), 5 - i);
+        return {
+          name: format(date, 'MMM'),
+          dateObj: date,
+          Income: 0,
+          Expense: 0,
+        };
+      });
+    }
 
     transactions.forEach(tx => {
       const txDate = parseISO(tx.date);
@@ -30,11 +45,13 @@ const IncomeExpenseChart = ({ transactions }) => {
     });
 
     return months;
-  }, [transactions]);
+  }, [transactions, year]);
 
   return (
-    <div className="card" style={{ padding: '1.5rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', height: '300px' }}>
-      <h3 style={{ marginBottom: '1rem', color: '#8b949e', fontSize: '0.9rem', fontWeight: 500 }}>Income vs Expenses</h3>
+    <div className="card" style={{ padding: '1.5rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', height: '100%' ,width: "100%"}}>
+      <h3 style={{ marginBottom: '1rem', color: '#8b949e', fontSize: '0.9rem', fontWeight: 500 }}>
+        Income vs Expenses {year ? `(${year})` : '(Last 6 Months)'}
+      </h3>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#30363d" vertical={false} />
