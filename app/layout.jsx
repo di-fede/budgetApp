@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Suspense } from "react";
 
 import Sidebar from "../components/Sidebar/Sidebar";
 
@@ -12,7 +13,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <div className="bodyDiv">
-          <Sidebar />
+          <Suspense>
+            <Sidebar />
+          </Suspense>
           <div className="main-content">
             {children}
           </div>

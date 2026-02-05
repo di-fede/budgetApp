@@ -10,7 +10,7 @@ import TransactionForm from '../components/Transactions/TransactionForm';
 import { useSearchParams } from 'next/navigation';
 import DashTop from '@/components/Dashboard/dashTop';
 
-export default function Home() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -100,5 +100,13 @@ export default function Home() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <React.Suspense fallback={<div className="p-8">Loading Dashboard...</div>}>
+      <DashboardContent />
+    </React.Suspense>
   );
 }
