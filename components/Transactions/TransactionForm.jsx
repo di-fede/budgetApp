@@ -4,23 +4,31 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
 const TransactionForm = ({ onSuccess, onClose, initialData = null, defaultDate = null, defaultCategory = '' }) => {
-  const categories = getCategories();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    setCategories(getCategories());
+  }, []);
+
   const [formData, setFormData] = useState({
     id: initialData?.id || null,
     type: initialData?.type || 'expense',
     amount: initialData?.amount || '',
-    category: initialData?.category || defaultCategory || categories[0]?.name || '',
+    category: initialData?.category || defaultCategory || '', // Initial empty, will update when categories load
     date: initialData?.date || defaultDate || new Date().toISOString().split('T')[0],
     description: initialData?.description || '',
     recurring: false,
   });
 
   useEffect(() => {
-    if (!initialData && defaultCategory) {
+    if (!initialData && defaultCategory && categories.length > 0) {
       const cat = categories.find(c => c.name === defaultCategory);
       if (cat) {
         setFormData(prev => ({ ...prev, type: cat.type }));
       }
+    } else if (!formData.category && categories.length > 0) {
+       // Set default category if not set
+       setFormData(prev => ({ ...prev, category: categories[0]?.name || '' }));
     }
   }, [defaultCategory, categories, initialData]);
 

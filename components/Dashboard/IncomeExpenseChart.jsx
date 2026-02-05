@@ -48,7 +48,7 @@ const IncomeExpenseChart = ({ transactions, year }) => {
   }, [transactions, year]);
 
   return (
-    <div className="card" style={{ padding: '1.5rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', height: '100%' ,width: "100%"}}>
+    <div className="card" style={{ padding: '1.5rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', height: '100%', width: "100%"}}>
       <h3 style={{ marginBottom: '1rem', color: '#8b949e', fontSize: '0.9rem', fontWeight: 500 }}>
         Income vs Expenses {year ? `(${year})` : '(Last 6 Months)'}
       </h3>

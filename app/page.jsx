@@ -56,7 +56,7 @@ export default function Home() {
 
   return (
     <div className="dashboard">
-      <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 700 }}>Dashboard</h1>
           <p style={{ color: '#8b949e' }}>Welcome back, here is your financial overview.</p>
@@ -73,7 +73,7 @@ export default function Home() {
         >
           + Add New
         </button>
-      </header>
+      </header> */}
 
 <DashTop>
 

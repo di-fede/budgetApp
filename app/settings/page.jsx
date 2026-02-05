@@ -52,7 +52,7 @@ export default function SettingsPage() {
   return (
     <div className="container">
        <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1 style={{ fontSize: '1.8rem', fontWeight: 700 }}>Settings</h1>
+        <h1 style={{ fontSize: '2rem', fontWeight: 700 }}>Settings</h1>
       </header>
 
       <div className="card" style={{ padding: '1.5rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px' }}>
@@ -68,7 +68,7 @@ export default function SettingsPage() {
               display: 'flex', 
               alignItems: 'center', 
               gap: '0.5rem',
-              fontSize: '0.9rem'
+              fontSize: '1.8rem'
             }}
           >
             <Plus size={16} /> Add Category
@@ -78,7 +78,7 @@ export default function SettingsPage() {
         <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
           {['income', 'expense'].map(type => (
             <div key={type}>
-              <h4 style={{ textTransform: 'capitalize', marginBottom: '1rem', color: '#8b949e' }}>{type}</h4>
+              <h4 style={{ textTransform: 'capitalize', marginBottom: '1rem', color: '#8b949e', fontSize:"1.8rem" }}>{type}</h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {categories.filter(c => c.type === type).map(cat => (
                   <div key={cat.id} style={{ 
@@ -88,7 +88,8 @@ export default function SettingsPage() {
                     padding: '0.75rem', 
                     background: '#0d1117', 
                     borderRadius: '8px',
-                    border: '1px solid var(--card-border)'
+                    border: '1px solid var(--card-border)',
+                    fontSize: "2rem"
                   }}>
                     <span>{cat.name}</span>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -145,10 +146,10 @@ export default function SettingsPage() {
         </form>
       </Modal>
 
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit Category">
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Edit Category" >
          <form onSubmit={handleUpdateCategory} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label style={{ fontSize: '0.9rem', color: '#8b949e' }}>Name</label>
+            <label style={{ fontSize: '1.2rem', color: '#8b949e' }}>Name</label>
             <input 
               type="text" 
               value={editingCat?.name || ''} 

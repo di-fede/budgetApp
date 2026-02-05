@@ -10,6 +10,7 @@ import styles from './TransactionHistory.module.scss';
 import clsx from 'clsx';
 
 const TransactionHistory = ({ transactions, onRefresh, year }) => {
+
   const scrollRef = useRef(null);
   // Need to listen to category changes locally or force refresh?
   // Since categories are in localStorage, simple state updates might not sync if we don't re-fetch.
@@ -113,6 +114,8 @@ const TransactionHistory = ({ transactions, onRefresh, year }) => {
   const incomeCategories = categories.filter(c => c.type === 'income');
   const expenseCategories = categories.filter(c => c.type === 'expense');
 
+
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -177,6 +180,7 @@ const TransactionHistory = ({ transactions, onRefresh, year }) => {
                       const catTxs = month.txs.filter(t => t.category === cat.name);
                       const total = catTxs.reduce((sum, t) => sum + Number(t.amount), 0);
                       const hasValue = catTxs.length > 0;
+                      
                       return (
                         <div key={cat.id} className={styles.rowWrapper}>
                           <button 
@@ -201,8 +205,15 @@ const TransactionHistory = ({ transactions, onRefresh, year }) => {
                   <div className={styles.colTotal}>
                     <span>Total</span>
                     <span className={styles.expenseTotal}>{formatCurrency(monthExpenseTotal)}</span>
+                    
                   </div>
                 </div>
+              </div>
+              <div className={styles.balance}>
+                <span>Month Balance</span>
+                <div className={monthIncomeTotal - monthExpenseTotal > 0  ? styles.positive : styles.negative}>
+                <span  >{formatCurrency(monthIncomeTotal - monthExpenseTotal)}</span>
+             </div>
               </div>
             </div>
           );

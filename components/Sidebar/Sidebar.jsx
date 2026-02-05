@@ -14,8 +14,8 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const links = [
-    { href: '/', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/transactions', label: 'Transactions', icon: Receipt },
+    // { href: '/', label: 'Dashboard', icon: LayoutDashboard },
+    // { href: '/transactions', label: 'Transactions', icon: Receipt },
     { href: '/settings', label: 'Settings', icon: Settings },
   ];
 
@@ -30,36 +30,17 @@ const Sidebar = () => {
         {isOpen ? <X /> : <Menu />}
       </button>
 
-      <aside className={clsx(styles.sidebar, isOpen && styles.open)}>
+      {/* <aside className={clsx(styles.sidebar, isOpen && styles.open)}> */}
+      <aside className={`${isOpen ? "sidebar__open": "sidebar" } `}>
         <div className={styles.brand}>
           <Wallet />
           <span>Finance</span>
         </div>
 
-        <nav className={styles.nav}>
-          {links.map((link) => {
-            const Icon = link.icon;
-            // Exact match for non-year links to keep it simple, 
-            // or we could ignore query params for main nav items if needed.
-            // For now, let's keep it simple. If we are on root / with no year, Dashboard is active.
-            // If we have a year, Dashboard is still technically the page, but maybe we want to distinguish?
-            // Let's just highlight dashboard if pathname matches and no year selected? 
-            // Or just keep it standard.
-            const isActive = pathname === link.href && !currentYear;
-            return (
-              <Link 
-                key={link.href} 
-                href={link.href}
-                className={clsx(styles.link, isActive && styles.active)}
-                onClick={() => setIsOpen(false)}
-              >
-                <Icon />
-                <span>{link.label}</span>
-              </Link>
-            );
-          })}
+        <nav className="sidebar__nav">
+  
 
-          <div className={styles.divider} />
+          <div className="sidebar__divider" />
           <div className={styles.sectionTitle}>History</div>
           
           {years.map(year => (
@@ -73,6 +54,34 @@ const Sidebar = () => {
               <span>{year}</span>
             </Link>
           ))}
+                  {links.map((link) => {
+            const Icon = link.icon;
+            // Exact match for non-year links to keep it simple, 
+            // or we could ignore query params for main nav items if needed.
+            // For now, let's keep it simple. If we are on root / with no year, Dashboard is active.
+            // If we have a year, Dashboard is still technically the page, but maybe we want to distinguish?
+            // Let's just highlight dashboard if pathname matches and no year selected? 
+            // Or just keep it standard.
+            const isActive = pathname === link.href && !currentYear;
+            return (
+              <>
+              <Link 
+                key={link.href} 
+                href={link.href}
+                className={clsx(styles.link, isActive && styles.active)}
+                onClick={() => setIsOpen(false)}
+              >
+                <Icon />
+                <span>{link.label}</span>
+              </Link>
+                 <Link href={"/settings"} >
+          Settings
+          </Link>
+              </>
+            );
+          })}
+
+       
         </nav>
       </aside>
     </>

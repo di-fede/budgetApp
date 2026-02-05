@@ -2,6 +2,7 @@
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
+   
   gap: 1rem;
 }
 
@@ -66,7 +67,7 @@
   margin-bottom: 1rem;
 
   h4 {
-    font-size: 1.25rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--primary);
     text-align: center;
@@ -77,6 +78,8 @@
   display: flex;
   gap: 1.5rem;
   flex: 1;
+  border-bottom: 2px solid var(--card-border);
+
 }
 
 .column {
@@ -86,10 +89,10 @@
 }
 
 .colHeader {
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: #8b949e;
+  color: #a1a6ab;
   margin-bottom: 0.75rem;
   padding-bottom: 0.25rem;
   border-bottom: 1px solid var(--card-border);
@@ -145,7 +148,7 @@
 }
 
 .catName {
-  font-size: 0.85rem;
+  font-size: 1.4rem;
   color: #8b949e;
   font-weight: 500;
 }
@@ -162,21 +165,38 @@
 }
 
 .colTotal {
-  margin-top: 1rem;
-  padding-top: 0.75rem;
-  border-top: 2px solid var(--card-border);
+  // margin-top: 1rem;
+  padding: 0.75rem 0;
   display: flex;
   justify-content: space-between;
+  border-top: 2px solid var(--card-border);
+
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.4rem;
+}
+
+.balance{
+   display: flex;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  font-size:1.4rem;
+}
+
+.positive{
+  color:var(--success);
+}
+.negative{
+  color:var(--danger);
 }
 
 .incomeTotal { color: var(--success); }
 .expenseTotal { color: var(--danger); }
 
+
+
 .inlineAddBtn {
   margin-top: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   color: #8b949e;
   display: flex;
   align-items: center;
