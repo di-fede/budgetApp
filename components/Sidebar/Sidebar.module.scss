@@ -41,6 +41,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  height:100%;
 }
 
 .link {
@@ -54,6 +55,8 @@
   transition: all 0.2s;
   font-weight: 500;
   font-size:1.6rem;
+
+
 
   &:hover, &.active {
     background-color: rgba(88, 166, 255, 0.1);

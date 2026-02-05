@@ -11,7 +11,6 @@
   border-right: 1px solid var(--card-border);
   display: flex;
   flex-direction: column;
-  justify-content:space-between;
   padding: 2rem 1rem;
   transition: transform 0.3s ease;
   z-index: 50;
@@ -27,6 +26,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  height:100%;
 }
 &__divider {
   height: 1px;
@@ -61,6 +61,13 @@
   border-radius: 8px;
   transition: all 0.2s;
   font-weight: 500;
+  font-size:1.6rem;
+
+    &:last-child{
+    margin-top:5rem;
+  }
+
+
 
   &:hover, &.active {
     background-color: rgba(88, 166, 255, 0.1);
@@ -76,6 +83,8 @@
     height: 20px;
   }
 }
+
+
 
 .mobileToggle {
   display: none;

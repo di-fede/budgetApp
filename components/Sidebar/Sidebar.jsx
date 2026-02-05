@@ -41,20 +41,21 @@ const Sidebar = () => {
   
 
           <div className="sidebar__divider" />
-          <div className={styles.sectionTitle}>History</div>
+          <div className={styles.sectionTitle}>Dashboard</div>
           
           {years.map(year => (
             <Link
               key={year}
               href={`/?year=${year}`}
-              className={clsx(styles.link, currentYear === year && styles.active)}
+              // className={clsx(styles.link, currentYear === year && styles.active)}
+              className={`link ${currentYear === year ? "active": ""}`}
               onClick={() => setIsOpen(false)}
             >
               <LayoutDashboard size={18} style={{ opacity: 0 }} /> {/* Spacer icon */}
               <span>{year}</span>
             </Link>
           ))}
-                  {links.map((link) => {
+          {links.map((link) => {
             const Icon = link.icon;
             // Exact match for non-year links to keep it simple, 
             // or we could ignore query params for main nav items if needed.
@@ -63,26 +64,25 @@ const Sidebar = () => {
             // Let's just highlight dashboard if pathname matches and no year selected? 
             // Or just keep it standard.
             const isActive = pathname === link.href && !currentYear;
+
             return (
-              <>
               <Link 
                 key={link.href} 
                 href={link.href}
-                className={clsx(styles.link, isActive && styles.active)}
+                // className={clsx(styles.link, isActive && styles.active)}
+                className={`link ${isActive ? "active" : ""}`}
                 onClick={() => setIsOpen(false)}
               >
                 <Icon />
                 <span>{link.label}</span>
               </Link>
-                 <Link href={"/settings"} >
-          Settings
-          </Link>
-              </>
             );
           })}
+      
 
        
         </nav>
+        
       </aside>
     </>
   );
