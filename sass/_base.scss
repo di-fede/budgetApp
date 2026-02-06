@@ -7,17 +7,20 @@
   --success: #2ea043;
   --danger: #da3633;
   --warning: #d29922;
-  
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 /// Typography
 
-tspan{
-  font-size:1.6rem;
+tspan {
+  font-size: 1.6rem;
+
+  @media screen and (min-width: 2495px) {
+    font-size: 1.2rem;
+  }
 }
-
-
 
 // Reset & Base
 * {
@@ -26,26 +29,26 @@ tspan{
   padding: 0;
 }
 html {
-    font-size: 62.5%;
-    @include respond(big-desktop) {
-        font-size: 80%;
-    }
+  font-size: 62.5%;
+  @include respond(big-desktop) {
+    font-size: 80%;
+  }
 
-    @include respond(laptop) {
-        font-size: 60%;
-    }
-    @include respond(tab-land) {
-        font-size: 55%;
-    }
-    @include respond(tab-port) {
-        font-size: 50%;
-    }
-    @include respond(phone) {
-        font-size: 45%;
-    }
-    @include respond(phoneS) {
-        font-size: 35%;
-    }
+  @include respond(laptop) {
+    font-size: 60%;
+  }
+  @include respond(tab-land) {
+    font-size: 55%;
+  }
+  @include respond(tab-port) {
+    font-size: 50%;
+  }
+  @include respond(phone) {
+    font-size: 45%;
+  }
+  @include respond(phoneS) {
+    font-size: 35%;
+  }
 }
 
 body {
@@ -102,11 +105,10 @@ button {
 
 // Layout Utilities
 
-.bodyDiv{
-  width:100vw;
-  display:grid;
+.bodyDiv {
+  width: 100vw;
+  display: grid;
   grid-template-columns: 18rem 1fr;
-
 }
 .main-content {
   grid-column: 2/3;
@@ -123,7 +125,7 @@ button {
 
 // Page Utilities
 
-.chart-container{
-  width:100%;
-  height:100%;
+.chart-container {
+  width: 100%;
+  height: 100%;
 }

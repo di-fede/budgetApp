@@ -1,7 +1,5 @@
-
-
 .sidebar {
-  grid-column:1/2;
+  grid-column: 1/2;
   width: 100%;
   background-color: var(--card-bg);
   height: 100vh;
@@ -23,16 +21,16 @@
   }
 
   &__nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  height:100%;
-}
-&__divider {
-  height: 1px;
-  background-color: var(--card-border);
-  margin: 1rem 0;
-}
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+  }
+  &__divider {
+    height: 1px;
+    background-color: var(--card-border);
+    margin: 1rem 0;
+  }
 }
 
 .brand {
@@ -49,8 +47,6 @@
   }
 }
 
-
-
 .link {
   display: flex;
   align-items: center;
@@ -61,15 +57,14 @@
   border-radius: 8px;
   transition: all 0.2s;
   font-weight: 500;
-  font-size:1.6rem;
+  font-size: 1.6rem;
 
-    &:last-child{
-    margin-top:5rem;
+  &:last-child {
+    margin-top: 5rem;
   }
 
-
-
-  &:hover, &.active {
+  &:hover,
+  &.active {
     background-color: rgba(88, 166, 255, 0.1);
     color: var(--text-color);
   }
@@ -83,8 +78,6 @@
     height: 20px;
   }
 }
-
-
 
 .mobileToggle {
   display: none;
@@ -102,8 +95,6 @@
     display: block;
   }
 }
-
-
 
 .sectionTitle {
   padding: 0 1rem;

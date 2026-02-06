@@ -23,13 +23,13 @@
   &.activeIncome {
     background: var(--card-bg);
     color: var(--success);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   &.activeExpense {
     background: var(--card-bg);
     color: var(--danger);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -39,12 +39,13 @@
   gap: 0.5rem;
 
   label {
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 500;
     color: #8b949e;
   }
 
-  input, select {
+  input,
+  select {
     background: #0d1117;
     border: 1px solid var(--card-border);
     padding: 0.75rem;
@@ -76,11 +77,15 @@
   background: transparent;
   border: 1px solid var(--card-border);
   color: var(--text-color);
-  &:hover { background: #21262d; }
+  &:hover {
+    background: #21262d;
+  }
 }
 
 .submit {
   background: var(--primary);
   color: white;
-  &:hover { opacity: 0.9; }
+  &:hover {
+    opacity: 0.9;
+  }
 }

@@ -10,7 +10,7 @@
   align-items: center;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--card-border);
-  
+
   &:last-child {
     border-bottom: none;
     padding-bottom: 0;
@@ -48,9 +48,9 @@
   font-size: 0.75rem;
   color: #8b949e;
 }
-.transactions-card{
-      padding:1.5rem;
-      background:var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
+.transactions-card {
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
 }

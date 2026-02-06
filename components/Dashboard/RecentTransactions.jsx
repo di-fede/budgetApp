@@ -3,7 +3,7 @@ import { formatCurrency, formatDate } from '../../lib/utils';
 
 const RecentTransactions = ({ transactions }) => {
   return (
-    <div className=" transactions-card" >
+    <div className=" transactions-card">
       <h3 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Recent Transactions</h3>
       <div className="transactions-list">
         {transactions.length === 0 ? (
@@ -16,8 +16,12 @@ const RecentTransactions = ({ transactions }) => {
                 <div className="transactions-desc">{tx.description}</div>
               </div>
               <div className="transactions-right">
-                <div className="transactions-amount" style={{ color: tx.type === 'income' ? 'var(--success)' : 'var(--text-color)' }}>
-                  {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
+                <div
+                  className="transactions-amount"
+                  style={{ color: tx.type === 'income' ? 'var(--success)' : 'var(--text-color)' }}
+                >
+                  {tx.type === 'income' ? '+' : '-'}
+                  {formatCurrency(tx.amount)}
                 </div>
                 <div className="transactions-date">{formatDate(tx.date)}</div>
               </div>

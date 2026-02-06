@@ -1,13 +1,16 @@
-@import "abstracts/mixins";
+@import 'abstracts/mixins';
 
-@import "base";
+@import 'base';
 
-@import "dashboard/dashboardMain";
-@import "dashboard/dashTop";
-@import "dashboard/summaryCards";
+@import 'dashboard/chart';
+@import 'dashboard/dashboardMain';
+@import 'dashboard/dashTop';
+@import 'dashboard/summaryCards';
 
-@import "settings/settings";
+@import 'login/loginForm';
 
-@import "sidebar/sidebar";
+@import 'settings/settings';
 
-@import "transactions/recentTransactions";
+@import 'sidebar/sidebar';
+
+@import 'transactions/recentTransactions';

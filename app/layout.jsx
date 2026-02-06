@@ -1,11 +1,11 @@
-import "./globals.css";
-import { Suspense } from "react";
+import './globals.css';
+import { Suspense } from 'react';
 
-import Sidebar from "../components/Sidebar/Sidebar";
+import Sidebar from '../components/Sidebar/Sidebar';
 
 export const metadata = {
-  title: "Personal Finance Tracker",
-  description: "Track your income and expenses simply.",
+  title: 'Personal Finance Tracker',
+  description: 'Track your income and expenses simply.',
 };
 
 export default function RootLayout({ children }) {
@@ -16,9 +16,7 @@ export default function RootLayout({ children }) {
           <Suspense>
             <Sidebar />
           </Suspense>
-          <div className="main-content">
-            {children}
-          </div>
+          <div className="main-content">{children}</div>
         </div>
       </body>
     </html>

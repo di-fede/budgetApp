@@ -1,12 +1,11 @@
-
-.summaryCard{
- height:100%;
-&__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  height:100%;
-}
+.summaryCard {
+  height: 100%;
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    height: 100%;
+  }
 
   &__amount {
     font-size: 1.8rem;
@@ -14,42 +13,34 @@
     color: var(--text-color);
   }
 
-&__card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  width:100%;
-  padding: 1rem;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  position: relative;
-  overflow: hidden;
-
-  h3 {
-    font-size: 1.2rem;
-    color: #8b949e;
-    font-weight: 500;
-  }
-
-
-
-  &__trend {
-    font-size: 0.875rem;
-    color: var(--success);
+  &__card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    width: 100%;
+    padding: 1rem;
+    border-radius: 16px;
     display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    
-    &.negative {
-      color: var(--danger);
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+
+    h3 {
+      font-size: 1.2rem;
+      color: #8b949e;
+      font-weight: 500;
+    }
+
+    &__trend {
+      font-size: 0.875rem;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      &.negative {
+        color: var(--danger);
+      }
     }
   }
 }
-
-
-
-}
-
-
-

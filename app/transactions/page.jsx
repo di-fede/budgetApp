@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useEffect, useState } from 'react';
 import { getTransactions } from '../../lib/storage';
 import Modal from '../../components/UI/Modal';
@@ -19,16 +19,23 @@ export default function TransactionsPage() {
 
   return (
     <div className="container">
-      <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <header
+        style={{
+          marginBottom: '2rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <h1 style={{ fontSize: '1.8rem', fontWeight: 700 }}>Transactions</h1>
-        <button 
+        <button
           onClick={() => setIsModalOpen(true)}
-          style={{ 
-            background: 'var(--primary)', 
-            color: 'white', 
-            padding: '0.75rem 1.5rem', 
-            borderRadius: '8px', 
-            fontWeight: 600 
+          style={{
+            background: 'var(--primary)',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            borderRadius: '8px',
+            fontWeight: 600,
           }}
         >
           + Add New

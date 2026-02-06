@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useEffect, useState } from 'react';
 import { getTransactions, seedInitialData, checkRecurringTransactions } from '../lib/storage';
 import SummaryCards from '../components/Dashboard/SummaryCards';
@@ -20,19 +20,19 @@ function DashboardContent() {
   const currentYear = searchParams.get('year');
   const summary = React.useMemo(() => {
     let filteredTxs = transactions;
-    
+
     if (currentYear) {
-      filteredTxs = transactions.filter(t => t.date.startsWith(currentYear));
+      filteredTxs = transactions.filter((t) => t.date.startsWith(currentYear));
     }
 
     const income = filteredTxs
-      .filter(t => t.type === 'income')
+      .filter((t) => t.type === 'income')
       .reduce((acc, curr) => acc + Number(curr.amount), 0);
-      
+
     const expenses = filteredTxs
-      .filter(t => t.type === 'expense')
+      .filter((t) => t.type === 'expense')
       .reduce((acc, curr) => acc + Number(curr.amount), 0);
-      
+
     return {
       totalBalance: income - expenses,
       totalIncome: income,
@@ -75,18 +75,19 @@ function DashboardContent() {
         </button>
       </header> */}
 
-<DashTop>
+      <DashTop>
+        <SummaryCards summary={summary} />
 
-   <SummaryCards summary={summary} />
+        <div className="chart-container">
+          <IncomeExpenseChart transactions={transactions} year={searchParams.get('year')} />
+        </div>
+      </DashTop>
 
-      <div className='chart-container'>
-        <IncomeExpenseChart transactions={transactions} year={searchParams.get('year')} />
-      </div>
-</DashTop>
-
-
-
-      <TransactionHistory transactions={transactions} onRefresh={fetchData} year={searchParams.get('year')} />
+      <TransactionHistory
+        transactions={transactions}
+        onRefresh={fetchData}
+        year={searchParams.get('year')}
+      />
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add Transaction">
         <TransactionForm onSuccess={fetchData} onClose={() => setIsModalOpen(false)} />
@@ -94,7 +95,7 @@ function DashboardContent() {
 
       <style jsx>{`
         @media (max-width: 1024px) {
-          div[style*="grid-template-columns"] {
+          div[style*='grid-template-columns'] {
             grid-template-columns: 1fr !important;
           }
         }

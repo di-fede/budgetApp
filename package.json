@@ -7,21 +7,29 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "watch:sass": "sass --watch sass/main.scss app/globals.css"
+    "watch:sass": "sass --watch sass/main.scss app/globals.css",
+    "format": "prettier --write ."
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.95.3",
+    "@tanstack/react-query": "^5.90.20",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^6.30.3",
     "recharts": "^3.7.0",
     "sass": "^1.97.3",
+    "styled-components": "^6.3.8",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
     "eslint": "^9",
-    "eslint-config-next": "16.1.6"
+    "eslint-config-next": "16.1.6",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1"
   }
 }

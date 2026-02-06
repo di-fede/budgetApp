@@ -1,8 +1,7 @@
-"use client";
+'use client';
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import styles from './Modal.module.scss';
-import clsx from 'clsx'; // Ensure clsx is imported if I use it
 
 const Modal = ({ isOpen, onClose, title, children }) => {
   useEffect(() => {
@@ -11,7 +10,9 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     } else {
       document.body.style.overflow = 'unset';
     }
-    return () => { document.body.style.overflow = 'unset'; };
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -21,11 +22,11 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h2>{title}</h2>
-          <button onClick={onClose}><X /></button>
+          <button onClick={onClose}>
+            <X />
+          </button>
         </div>
-        <div className={styles.content}>
-          {children}
-        </div>
+        <div className={styles.content}>{children}</div>
       </div>
     </div>
   );
