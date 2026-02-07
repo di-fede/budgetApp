@@ -8,15 +8,19 @@ export const metadata = {
   description: 'Track your income and expenses simply.',
 };
 
+import QueryProvider from './QueryProvider';
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
         <div className="bodyDiv">
-          <Suspense>
-            <Sidebar />
-          </Suspense>
-          <div className="main-content">{children}</div>
+          <QueryProvider>
+            <Suspense>
+              <Sidebar />
+            </Suspense>
+            <div className="main-content">{children}</div>
+          </QueryProvider>
         </div>
       </body>
     </html>

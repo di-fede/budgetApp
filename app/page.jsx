@@ -9,6 +9,7 @@ import TransactionForm from '../components/Transactions/TransactionForm';
 
 import { useSearchParams } from 'next/navigation';
 import DashTop from '@/components/Dashboard/dashTop';
+import ProtectedRoute from './ui/protectedRoute';
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -108,6 +109,7 @@ export default function Home() {
   return (
     <React.Suspense fallback={<div className="p-8">Loading Dashboard...</div>}>
       <DashboardContent />
+      <ProtectedRoute></ProtectedRoute>
     </React.Suspense>
   );
 }

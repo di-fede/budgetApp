@@ -1,13 +1,13 @@
 'use client';
 import { login } from '@/services/apiAuth';
 import { useState } from 'react';
-// import { useLogin } from './useLogin';
+import { useLogin } from './useLogin';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('difede462@gmail.com');
   const [password, setPassword] = useState('password');
 
-  // const { login, isLoading } = useLogin();
+  const { login, isLoading } = useLogin();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -30,7 +30,7 @@ export default function LoginForm() {
           autoComplete="userName"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          // disabled={isLoading}
+          disabled={isLoading}
         />
       </div>
       <div className="loginForm__password-container">
@@ -42,7 +42,7 @@ export default function LoginForm() {
           id="password"
           type="text"
           onChange={(e) => setPassword(e.target.value)}
-          // disabled={isLoading}
+          disabled={isLoading}
         />
       </div>
       <button className="loginForm__button">Login</button>
