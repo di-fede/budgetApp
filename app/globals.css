@@ -314,7 +314,7 @@ button {
   margin-top: 5rem;
 }
 .link:hover, .link.active {
-  background-color: rgba(88, 166, 255, 0.1);
+  background-color: rgba(84, 186, 185, 0.4);
   color: #000;
 }
 .link.active {
