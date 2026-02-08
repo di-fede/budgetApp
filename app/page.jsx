@@ -1,6 +1,11 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { getTransactions, seedInitialData, checkRecurringTransactions } from '../lib/storage';
+import {
+  getTransactions,
+  seedInitialData,
+  checkRecurringTransactions,
+  initializeCategories,
+} from '../lib/storage';
 import SummaryCards from '../components/Dashboard/SummaryCards';
 import IncomeExpenseChart from '../components/Dashboard/IncomeExpenseChart';
 import TransactionHistory from '../components/Dashboard/TransactionHistory'; // New component
@@ -47,6 +52,7 @@ function DashboardContent() {
   };
 
   useEffect(() => {
+    initializeCategories();
     seedInitialData();
     checkRecurringTransactions(); // Run check logic
     fetchData(); // Load data (including any new recurring ones)

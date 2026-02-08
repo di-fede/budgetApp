@@ -1,17 +1,59 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { LayoutDashboard, Receipt, Settings, Menu, X, Wallet } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Receipt,
+  Settings,
+  Menu,
+  X,
+  Wallet,
+  Download,
+  Upload,
+} from 'lucide-react';
 import styles from './Sidebar.module.scss';
 import clsx from 'clsx';
+import { exportData, importData } from '../../lib/storage';
 
 const Sidebar = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentYear = searchParams.get('year');
   const [isOpen, setIsOpen] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const handleBackup = () => {
+    const json = exportData();
+    if (!json) return;
+
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `finance-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleRestore = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const text = await file.text();
+    const success = importData(text);
+    if (success) {
+      alert('Data restored successfully!');
+      window.location.reload();
+    } else {
+      alert('Failed to restore data. Invalid file format.');
+    }
+    // Reset input
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   const links = [
     // { href: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -73,6 +115,24 @@ const Sidebar = () => {
               </Link>
             );
           })}
+
+          <div className="sidebar__divider" />
+          <div className={styles.sectionTitle}>Data Management</div>
+          <button className="link" onClick={handleBackup}>
+            <Download size={18} />
+            <span>Backup Data</span>
+          </button>
+          <button className="link" onClick={() => fileInputRef.current?.click()}>
+            <Upload size={18} />
+            <span>Restore Data</span>
+          </button>
+          <input
+            type="file"
+            accept=".json"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleRestore}
+          />
         </nav>
       </aside>
     </>

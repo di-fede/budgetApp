@@ -1,7 +1,7 @@
 :root {
-  --bg-color: #0d1117;
-  --text-color: #f0f6fc;
-  --card-bg: #161b22;
+  --bg-color: #f7ecde;
+  --text-color: #000;
+  --card-bg: #fcfcfb;
   --card-border: #30363d;
   --primary: #58a6ff;
   --success: #2ea043;
@@ -62,7 +62,7 @@ html {
 
 body {
   background-color: var(--bg-color);
-  color: var(--text-color);
+  color: #000;
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
@@ -253,7 +253,7 @@ button {
 .sidebar {
   grid-column: 1/2;
   width: 100%;
-  background-color: var(--card-bg);
+  background-color: #fcfcfb;
   height: 100vh;
   overflow-y: auto;
   position: sticky;
@@ -303,7 +303,7 @@ button {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
-  color: #8b949e;
+  color: #000;
   text-decoration: none;
   border-radius: 8px;
   transition: all 0.2s;
@@ -313,13 +313,12 @@ button {
 .link:last-child {
   margin-top: 5rem;
 }
-.link:hover,
-.link.active {
+.link:hover, .link.active {
   background-color: rgba(88, 166, 255, 0.1);
-  color: var(--text-color);
+  color: #000;
 }
 .link.active {
-  color: var(--primary);
+  color: #000;
 }
 .link svg {
   width: 20px;

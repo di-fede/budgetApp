@@ -73,7 +73,7 @@
   h4 {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--primary);
+    color: #54bab9;
     text-align: center;
   }
 }
@@ -95,7 +95,7 @@
   font-size: 1.2rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: #a1a6ab;
+  color: #000;
   margin-bottom: 0.75rem;
   padding-bottom: 0.25rem;
   border-bottom: 1px solid var(--card-border);
@@ -151,13 +151,13 @@
 }
 
 .catName {
-  font-size: 1.4rem;
-  color: #8b949e;
+  font-size: 1.6rem;
+  color: #000;
   font-weight: 500;
 }
 
 .catVal {
-  font-size: 0.85rem;
+  font-size: 1.6rem;
   color: var(--text-color);
   font-weight: 600;
 }
@@ -202,7 +202,7 @@
 .inlineAddBtn {
   margin-top: 0.5rem;
   font-size: 1.2rem;
-  color: #8b949e;
+  color: #000;
   display: flex;
   align-items: center;
   gap: 0.25rem;
