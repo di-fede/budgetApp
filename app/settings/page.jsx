@@ -70,7 +70,7 @@ export default function SettingsPage() {
         className="card"
         style={{
           padding: '1.5rem',
-          background: 'var(--card-bg)',
+          background: 'var(--button)',
           border: '1px solid var(--card-border)',
           borderRadius: '16px',
         }}
@@ -87,7 +87,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setIsModalOpen(true)}
             style={{
-              background: 'var(--card-border)',
+              background: 'var(--button)',
               color: 'var(--text-color)',
               padding: '0.5rem 1rem',
               borderRadius: '6px',
@@ -131,7 +131,7 @@ export default function SettingsPage() {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         padding: '0.75rem',
-                        background: '#0d1117',
+                        background: '#fff',
                         borderRadius: '8px',
                         border: '1px solid var(--card-border)',
                         fontSize: '2rem',

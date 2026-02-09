@@ -265,7 +265,7 @@ const TransactionHistory = ({ transactions, onRefresh, year }) => {
             style={{
               padding: '0.75rem',
               borderRadius: '8px',
-              background: '#0d1117',
+              background: '#fff',
               border: '1px solid #30363d',
               color: 'white',
             }}
