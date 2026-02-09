@@ -1,8 +1,99 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { getCategories, saveCategory, deleteCategory, updateCategory } from '../../lib/storage';
+import {
+  getCategories,
+  saveCategory,
+  deleteCategory,
+  updateCategory,
+  saveCategories,
+} from '../../lib/storage';
 import Modal from '../../components/UI/Modal';
-import { Plus, Trash2, Edit2 } from 'lucide-react';
+import { Plus, Trash2, Edit2, GripVertical } from 'lucide-react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+function SortableCategoryItem({ category, onEdit, onDelete }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: category.id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '0.75rem',
+    background: isDragging ? 'var(--bg-secondary, #fafafa)' : '#fff',
+    borderRadius: '8px',
+    border: '1px solid var(--card-border)',
+    fontSize: '2rem',
+    zIndex: isDragging ? 2 : 1,
+    position: 'relative',
+    touchAction: 'none',
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ color: '#d1d5db', cursor: 'grab', display: 'flex', alignItems: 'center' }}>
+          <GripVertical size={20} />
+        </div>
+        <span>{category.name}</span>
+      </div>
+      <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit(category);
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          style={{
+            color: '#8b949e',
+            padding: '0.25rem',
+            cursor: 'pointer',
+            background: 'transparent',
+            border: 'none',
+          }}
+          title="Rename"
+        >
+          <Edit2 size={16} />
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(category.id);
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          style={{
+            color: 'var(--danger)',
+            padding: '0.25rem',
+            cursor: 'pointer',
+            background: 'transparent',
+            border: 'none',
+          }}
+          title="Delete Category"
+        >
+          <Trash2 size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function SettingsPage() {
   const [categories, setCategories] = useState([]);
@@ -14,9 +105,43 @@ export default function SettingsPage() {
   const [editingCat, setEditingCat] = useState(null); // { id, name }
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
   useEffect(() => {
     setCategories(getCategories());
   }, []);
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (!over) return;
+    if (active.id === over.id) return;
+
+    // We need to work with the full list
+    const oldIndex = categories.findIndex((c) => c.id === active.id);
+    const newIndex = categories.findIndex((c) => c.id === over.id);
+
+    // Prevent dragging between different types (Income <-> Expense)
+    if (
+      categories[oldIndex] &&
+      categories[newIndex] &&
+      categories[oldIndex].type !== categories[newIndex].type
+    ) {
+      return;
+    }
+
+    const newCategories = arrayMove(categories, oldIndex, newIndex);
+    setCategories(newCategories);
+    saveCategories(newCategories);
+  };
 
   const handleAddCategory = (e) => {
     e.preventDefault();
@@ -54,7 +179,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ paddingBottom: '4rem' }}>
       <header
         style={{
           marginBottom: '2rem',
@@ -101,65 +226,51 @@ export default function SettingsPage() {
           </button>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gap: '2rem',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          }}
-        >
-          {['income', 'expense'].map((type) => (
-            <div key={type}>
-              <h4
-                style={{
-                  textTransform: 'capitalize',
-                  marginBottom: '1rem',
-                  color: '#8b949e',
-                  fontSize: '1.8rem',
-                }}
-              >
-                {type}
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {categories
-                  .filter((c) => c.type === type)
-                  .map((cat) => (
-                    <div
-                      key={cat.id}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: '0.75rem',
-                        background: '#fff',
-                        borderRadius: '8px',
-                        border: '1px solid var(--card-border)',
-                        fontSize: '2rem',
-                      }}
-                    >
-                      <span>{cat.name}</span>
-                      <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        <button
-                          onClick={() => openEdit(cat)}
-                          style={{ color: '#8b949e', padding: '0.25rem', cursor: 'pointer' }}
-                          title="Rename"
-                        >
-                          <Edit2 size={16} />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteCategory(cat.id)}
-                          style={{ color: 'var(--danger)', padding: '0.25rem', cursor: 'pointer' }}
-                          title="Delete Category"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <div
+            style={{
+              display: 'grid',
+              gap: '2rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            }}
+          >
+            {['income', 'expense'].map((type) => {
+              const typeCategories = categories.filter((c) => c.type === type);
+              return (
+                <div key={type}>
+                  <h4
+                    style={{
+                      textTransform: 'capitalize',
+                      marginBottom: '1rem',
+                      color: '#8b949e',
+                      fontSize: '1.8rem',
+                    }}
+                  >
+                    {type}
+                  </h4>
+                  <SortableContext
+                    items={typeCategories.map((c) => c.id)}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      {typeCategories.length === 0 && (
+                        <p style={{ color: '#666', fontStyle: 'italic' }}>No categories yet.</p>
+                      )}
+                      {typeCategories.map((cat) => (
+                        <SortableCategoryItem
+                          key={cat.id}
+                          category={cat}
+                          onEdit={openEdit}
+                          onDelete={handleDeleteCategory}
+                        />
+                      ))}
                     </div>
-                  ))}
-              </div>
-            </div>
-          ))}
-        </div>
+                  </SortableContext>
+                </div>
+              );
+            })}
+          </div>
+        </DndContext>
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="New Category">
