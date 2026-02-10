@@ -7,7 +7,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState('difede462@gmail.com');
   const [password, setPassword] = useState('password');
 
-  const { login, isLoading } = useLogin();
+  const { login, isLoading, isError, error } = useLogin();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -45,7 +45,10 @@ export default function LoginForm() {
           disabled={isLoading}
         />
       </div>
-      <button className="loginForm__button">Login</button>
+      <button className="loginForm__button" disabled={isLoading}>
+        Login
+      </button>
+      {isError && <span style={{ color: 'red', marginTop: '1rem' }}>{error.message}</span>}
     </form>
   );
 }

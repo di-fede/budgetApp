@@ -25,6 +25,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import ProtectedRoute from '../ui/protectedRoute';
 
 function SortableCategoryItem({ category, onEdit, onDelete }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -179,195 +180,201 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="container" style={{ paddingBottom: '4rem' }}>
-      <header
-        style={{
-          marginBottom: '2rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <h1 style={{ fontSize: '2rem', fontWeight: 700 }}>Settings</h1>
-      </header>
-
-      <div
-        className="card"
-        style={{
-          padding: '1.5rem',
-          background: 'var(--button)',
-          border: '1px solid var(--card-border)',
-          borderRadius: '16px',
-        }}
-      >
-        <div
+    <ProtectedRoute>
+      <div className="container" style={{ paddingBottom: '4rem' }}>
+        <header
           style={{
+            marginBottom: '2rem',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '1.5rem',
           }}
         >
-          <h3>Categories</h3>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            style={{
-              background: 'var(--button)',
-              color: 'var(--text-color)',
-              padding: '0.5rem 1rem',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              fontSize: '1.8rem',
-            }}
-          >
-            <Plus size={16} /> Add Category
-          </button>
-        </div>
+          <h1 style={{ fontSize: '2rem', fontWeight: 700 }}>Settings</h1>
+        </header>
 
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <div
+          className="card"
+          style={{
+            padding: '1.5rem',
+            background: 'var(--button)',
+            border: '1px solid var(--card-border)',
+            borderRadius: '16px',
+          }}
+        >
           <div
             style={{
-              display: 'grid',
-              gap: '2rem',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '1.5rem',
             }}
           >
-            {['income', 'expense'].map((type) => {
-              const typeCategories = categories.filter((c) => c.type === type);
-              return (
-                <div key={type}>
-                  <h4
-                    style={{
-                      textTransform: 'capitalize',
-                      marginBottom: '1rem',
-                      color: '#8b949e',
-                      fontSize: '1.8rem',
-                    }}
-                  >
-                    {type}
-                  </h4>
-                  <SortableContext
-                    items={typeCategories.map((c) => c.id)}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                      {typeCategories.length === 0 && (
-                        <p style={{ color: '#666', fontStyle: 'italic' }}>No categories yet.</p>
-                      )}
-                      {typeCategories.map((cat) => (
-                        <SortableCategoryItem
-                          key={cat.id}
-                          category={cat}
-                          onEdit={openEdit}
-                          onDelete={handleDeleteCategory}
-                        />
-                      ))}
-                    </div>
-                  </SortableContext>
-                </div>
-              );
-            })}
-          </div>
-        </DndContext>
-      </div>
-
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="New Category">
-        <form
-          onSubmit={handleAddCategory}
-          style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label style={{ fontSize: '0.9rem', color: '#8b949e' }}>Type</label>
-            <select
-              value={newCatType}
-              onChange={(e) => setNewCatType(e.target.value)}
+            <h3>Categories</h3>
+            <button
+              onClick={() => setIsModalOpen(true)}
               style={{
-                padding: '0.5rem',
+                background: 'var(--button)',
+                color: 'var(--text-color)',
+                padding: '0.5rem 1rem',
                 borderRadius: '6px',
-                background: '#0d1117',
-                color: 'white',
-                border: '1px solid var(--card-border)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '1.8rem',
               }}
             >
-              <option value="income">Income</option>
-              <option value="expense">Expense</option>
-            </select>
+              <Plus size={16} /> Add Category
+            </button>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label style={{ fontSize: '0.9rem', color: '#8b949e' }}>Name</label>
-            <input
-              type="text"
-              value={newCatName}
-              onChange={(e) => setNewCatName(e.target.value)}
-              placeholder="e.g. Crypto"
-              required
-              style={{
-                padding: '0.5rem',
-                borderRadius: '6px',
-                background: '#0d1117',
-                color: 'white',
-                border: '1px solid var(--card-border)',
-              }}
-            />
-          </div>
-          <button
-            type="submit"
-            style={{
-              marginTop: '1rem',
-              padding: '0.75rem',
-              background: 'var(--primary)',
-              color: 'white',
-              borderRadius: '8px',
-              fontWeight: 600,
-            }}
-          >
-            Save Category
-          </button>
-        </form>
-      </Modal>
 
-      <Modal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        title="Edit Category"
-      >
-        <form
-          onSubmit={handleUpdateCategory}
-          style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label style={{ fontSize: '1.2rem', color: '#8b949e' }}>Name</label>
-            <input
-              type="text"
-              value={editingCat?.name || ''}
-              onChange={(e) => setEditingCat({ ...editingCat, name: e.target.value })}
-              required
-              style={{
-                padding: '0.5rem',
-                borderRadius: '6px',
-                background: '#0d1117',
-                color: 'white',
-                border: '1px solid var(--card-border)',
-              }}
-            />
-          </div>
-          <button
-            type="submit"
-            style={{
-              marginTop: '1rem',
-              padding: '0.75rem',
-              background: 'var(--primary)',
-              color: 'white',
-              borderRadius: '8px',
-              fontWeight: 600,
-            }}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
           >
-            Update
-          </button>
-        </form>
-      </Modal>
-    </div>
+            <div
+              style={{
+                display: 'grid',
+                gap: '2rem',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              }}
+            >
+              {['income', 'expense'].map((type) => {
+                const typeCategories = categories.filter((c) => c.type === type);
+                return (
+                  <div key={type}>
+                    <h4
+                      style={{
+                        textTransform: 'capitalize',
+                        marginBottom: '1rem',
+                        color: '#8b949e',
+                        fontSize: '1.8rem',
+                      }}
+                    >
+                      {type}
+                    </h4>
+                    <SortableContext
+                      items={typeCategories.map((c) => c.id)}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        {typeCategories.length === 0 && (
+                          <p style={{ color: '#666', fontStyle: 'italic' }}>No categories yet.</p>
+                        )}
+                        {typeCategories.map((cat) => (
+                          <SortableCategoryItem
+                            key={cat.id}
+                            category={cat}
+                            onEdit={openEdit}
+                            onDelete={handleDeleteCategory}
+                          />
+                        ))}
+                      </div>
+                    </SortableContext>
+                  </div>
+                );
+              })}
+            </div>
+          </DndContext>
+        </div>
+
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="New Category">
+          <form
+            onSubmit={handleAddCategory}
+            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', color: '#8b949e' }}>Type</label>
+              <select
+                value={newCatType}
+                onChange={(e) => setNewCatType(e.target.value)}
+                style={{
+                  padding: '0.5rem',
+                  borderRadius: '6px',
+                  background: '#0d1117',
+                  color: 'white',
+                  border: '1px solid var(--card-border)',
+                }}
+              >
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '0.9rem', color: '#8b949e' }}>Name</label>
+              <input
+                type="text"
+                value={newCatName}
+                onChange={(e) => setNewCatName(e.target.value)}
+                placeholder="e.g. Crypto"
+                required
+                style={{
+                  padding: '0.5rem',
+                  borderRadius: '6px',
+                  background: '#0d1117',
+                  color: 'white',
+                  border: '1px solid var(--card-border)',
+                }}
+              />
+            </div>
+            <button
+              type="submit"
+              style={{
+                marginTop: '1rem',
+                padding: '0.75rem',
+                background: 'var(--primary)',
+                color: 'white',
+                borderRadius: '8px',
+                fontWeight: 600,
+              }}
+            >
+              Save Category
+            </button>
+          </form>
+        </Modal>
+
+        <Modal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          title="Edit Category"
+        >
+          <form
+            onSubmit={handleUpdateCategory}
+            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <label style={{ fontSize: '1.2rem', color: '#8b949e' }}>Name</label>
+              <input
+                type="text"
+                value={editingCat?.name || ''}
+                onChange={(e) => setEditingCat({ ...editingCat, name: e.target.value })}
+                required
+                style={{
+                  padding: '0.5rem',
+                  borderRadius: '6px',
+                  background: '#0d1117',
+                  color: 'white',
+                  border: '1px solid var(--card-border)',
+                }}
+              />
+            </div>
+            <button
+              type="submit"
+              style={{
+                marginTop: '1rem',
+                padding: '0.75rem',
+                background: 'var(--primary)',
+                color: 'white',
+                borderRadius: '8px',
+                fontWeight: 600,
+              }}
+            >
+              Update
+            </button>
+          </form>
+        </Modal>
+      </div>
+    </ProtectedRoute>
   );
 }

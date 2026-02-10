@@ -4,7 +4,12 @@ import { useRouter } from 'next/navigation';
 
 export function useLogin() {
   const router = useRouter();
-  const { mutate: login, isLoading } = useMutation({
+  const {
+    mutate: login,
+    isLoading,
+    isError,
+    error,
+  } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (user) => {
       console.log(user);
@@ -14,5 +19,5 @@ export function useLogin() {
       console.log('Error', err);
     },
   });
-  return { login, isLoading };
+  return { login, isLoading, isError, error };
 }

@@ -11,7 +11,7 @@ export async function login({ email, password }) {
 }
 
 export async function getCurrentUser() {
-  const { date: session } = await supabase.auth.getSession();
+  const { data: session } = await supabase.auth.getSession();
   if (!session.session) return null;
 
   const { data, error } = await supabase.auth.getUser();
@@ -19,4 +19,23 @@ export async function getCurrentUser() {
   if (error) throw new Error(error.message);
   console.log(data);
   return data?.user;
+}
+
+export async function signup({ email, password }) {
+  console.log('signupApi called with', email);
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        // You can add more user meta data here
+        // fullName,
+        // avatar,
+      },
+    },
+  });
+
+  if (error) throw new Error(error.message);
+
+  return data;
 }
