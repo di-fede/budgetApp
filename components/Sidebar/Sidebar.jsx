@@ -16,6 +16,7 @@ import {
 import styles from './Sidebar.module.scss';
 import clsx from 'clsx';
 import { exportData, importData } from '../../lib/storage';
+import { useLogout } from '../../services/authentication/useLogout';
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -23,6 +24,7 @@ const Sidebar = () => {
   const currentYear = searchParams.get('year');
   const [isOpen, setIsOpen] = useState(false);
   const fileInputRef = useRef(null);
+  const { logout, isLoading } = useLogout();
 
   const handleBackup = () => {
     const json = exportData();
@@ -133,6 +135,15 @@ const Sidebar = () => {
             style={{ display: 'none' }}
             onChange={handleRestore}
           />
+
+          <div className="sidebar__divider" />
+          <div className="logout__container">
+            <button className="logout" onClick={logout} disabled={isLoading}>
+              <div>
+                <span>{isLoading ? 'Logging out...' : 'Logout'}</span>
+              </div>
+            </button>
+          </div>
         </nav>
       </aside>
     </>

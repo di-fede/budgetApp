@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   getTransactions,
   seedInitialData,
@@ -23,7 +24,20 @@ function DashboardContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Derive summary based on transactions and selected year
+  const router = useRouter();
   const currentYear = searchParams.get('year');
+
+  useEffect(() => {
+    const savedYear = localStorage.getItem('lastViewedYear');
+    if (currentYear) {
+      if (currentYear !== savedYear) {
+        localStorage.setItem('lastViewedYear', currentYear);
+      }
+    } else if (savedYear) {
+      router.replace(`/?year=${savedYear}`);
+    }
+  }, [currentYear, router]);
+
   const summary = React.useMemo(() => {
     let filteredTxs = transactions;
 

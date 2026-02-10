@@ -24,6 +24,29 @@ const TransactionHistory = ({ transactions, onRefresh, year }) => {
     setCategories(getCategories());
   };
 
+  // Scroll Position Restoration
+  const scrollTimeout = useRef(null);
+
+  useEffect(() => {
+    const savedScroll = localStorage.getItem('transactionHistoryScroll');
+    if (savedScroll && scrollRef.current) {
+      requestAnimationFrame(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollLeft = Number(savedScroll);
+        }
+      });
+    }
+  }, []); // Run once on mount to restore position
+
+  const handleScrollEvent = () => {
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    scrollTimeout.current = setTimeout(() => {
+      if (scrollRef.current) {
+        localStorage.setItem('transactionHistoryScroll', scrollRef.current.scrollLeft);
+      }
+    }, 100);
+  };
+
   // Interaction State
   const [detailView, setDetailView] = useState(null);
   const [editingTx, setEditingTx] = useState(null);
@@ -131,7 +154,7 @@ const TransactionHistory = ({ transactions, onRefresh, year }) => {
         </div>
       </div>
 
-      <div className={styles.scrollArea} ref={scrollRef}>
+      <div className={styles.scrollArea} ref={scrollRef} onScroll={handleScrollEvent}>
         {months.map((month) => {
           const monthIncomeTotal = month.txs
             .filter((t) => t.type === 'income')

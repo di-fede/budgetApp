@@ -354,6 +354,25 @@ button {
   margin-bottom: 0.25rem;
 }
 
+.logout {
+  width: 8rem;
+  height: 3rem;
+  background-color: rgba(84, 186, 185, 0.5);
+  color: #000;
+  border-radius: 6px;
+  font-size: 1.4rem;
+  transition: all 0.3s;
+}
+.logout:hover {
+  background-color: #54bab9;
+}
+.logout__container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10rem;
+}
+
 .transactions-list {
   display: flex;
   flex-direction: column;
