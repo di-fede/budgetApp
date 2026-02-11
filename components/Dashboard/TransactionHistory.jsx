@@ -290,7 +290,7 @@ const TransactionHistory = ({ transactions, onRefresh, year }) => {
               borderRadius: '8px',
               background: '#fff',
               border: '1px solid #30363d',
-              color: 'white',
+              color: '#000',
             }}
           />
           <button

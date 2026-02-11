@@ -1,4 +1,10 @@
-import { getCategories, addTransaction, addRecurring, updateTransaction } from '../../lib/storage';
+import {
+  getCategories,
+  addTransaction,
+  addRecurring,
+  updateTransaction,
+  saveCategory,
+} from '../../lib/storage';
 import styles from './TransactionForm.module.scss';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
@@ -26,6 +32,9 @@ const TransactionForm = ({
     recurring: false,
   });
 
+  const [isCustomCategory, setIsCustomCategory] = useState(false);
+  const [customCategoryName, setCustomCategoryName] = useState('');
+
   useEffect(() => {
     if (!initialData && defaultCategory && categories.length > 0) {
       const cat = categories.find((c) => c.name === defaultCategory);
@@ -42,14 +51,29 @@ const TransactionForm = ({
     e.preventDefault();
     const cleanAmount = Number(formData.amount);
 
+    let finalCategory = formData.category;
+
+    if (isCustomCategory) {
+      if (!customCategoryName.trim()) return;
+      finalCategory = customCategoryName.trim();
+
+      // Save the new category
+      saveCategory({
+        name: finalCategory,
+        type: formData.type,
+      });
+    }
+
     if (formData.id) {
       updateTransaction({
         ...formData,
+        category: finalCategory,
         amount: cleanAmount,
       });
     } else {
       addTransaction({
         ...formData,
+        category: finalCategory,
         amount: cleanAmount,
       });
 
@@ -57,7 +81,7 @@ const TransactionForm = ({
         addRecurring({
           type: formData.type,
           amount: cleanAmount,
-          category: formData.category,
+          category: finalCategory,
           description: formData.description,
         });
       }
@@ -77,6 +101,8 @@ const TransactionForm = ({
       type,
       category: firstCat ? firstCat.name : '',
     });
+    setIsCustomCategory(false);
+    setCustomCategoryName('');
   };
 
   return (
@@ -112,18 +138,50 @@ const TransactionForm = ({
 
       <div className={styles.group}>
         <label>Category</label>
-        <select
-          value={formData.category}
-          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-          required
-        >
-          <option value="">Select Category</option>
-          {filteredCategories.map((c) => (
-            <option key={c.id} value={c.name}>
-              {c.name}
+        {!isCustomCategory ? (
+          <select
+            value={formData.category}
+            onChange={(e) => {
+              if (e.target.value === 'NEW_CATEGORY_OPTION') {
+                setIsCustomCategory(true);
+                setFormData({ ...formData, category: '' });
+              } else {
+                setFormData({ ...formData, category: e.target.value });
+              }
+            }}
+            required={!isCustomCategory}
+          >
+            <option value="">Select Category</option>
+            {filteredCategories.map((c) => (
+              <option key={c.id} value={c.name}>
+                {c.name}
+              </option>
+            ))}
+            <option value="NEW_CATEGORY_OPTION" style={{ fontWeight: '600' }}>
+              + Create New Category
             </option>
-          ))}
-        </select>
+          </select>
+        ) : (
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <input
+              type="text"
+              value={customCategoryName}
+              onChange={(e) => setCustomCategoryName(e.target.value)}
+              placeholder="Enter new category name"
+              required={isCustomCategory}
+              autoFocus
+              style={{ flex: 1 }}
+            />
+            <button
+              type="button"
+              onClick={() => setIsCustomCategory(false)}
+              className={styles.cancel}
+              style={{ padding: '0.75rem', flex: '0 0 auto' }}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
 
       <div className={styles.group}>
