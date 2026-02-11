@@ -2,6 +2,7 @@
 import { login } from '@/services/apiAuth';
 import { useState } from 'react';
 import { useLogin } from './useLogin';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('difede462@gmail.com');
@@ -49,6 +50,9 @@ export default function LoginForm() {
         Login
       </button>
       {isError && <span style={{ color: 'red', marginTop: '1rem' }}>{error.message}</span>}
+      <Link className="create__user-link" href={'/create-user'}>
+        Create user
+      </Link>
     </form>
   );
 }
