@@ -128,9 +128,9 @@ function DashboardContent() {
 export default function Home() {
   return (
     <React.Suspense fallback={<div className="p-8">Loading Dashboard...</div>}>
-      <ProtectedRoute>
-        <DashboardContent />
-      </ProtectedRoute>
+      {/* <ProtectedRoute> */}
+      <DashboardContent />
+      {/* </ProtectedRoute> */}
     </React.Suspense>
   );
 }
